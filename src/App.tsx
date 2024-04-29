@@ -3,12 +3,17 @@ import './game.css';
 import Square from './square';
 
 function Board() {
+  const [xIsNext, setXIsNext] = useState(true);
   const [squares, setSquares] = useState(Array(9).fill(null));
 
-  function handleClick(no=-1) {
+  function handleClick(i=-1) {
+    if (squares[i]) {
+      return;
+    }
     const nextSquares = squares.slice();
-    nextSquares[no] = "X";
+    nextSquares[i] = xIsNext ? "X" : "O";
     setSquares(nextSquares);
+    setXIsNext(!xIsNext);
   }
 
   return (
