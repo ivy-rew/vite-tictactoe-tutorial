@@ -71,6 +71,11 @@
     width: 34px;
   }
   
+  .won {
+    background-color: aquamarine;
+    color: red;
+  }
+
   .board-row:after {
     clear: both;
     content: '';

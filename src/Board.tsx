@@ -11,7 +11,8 @@ export function Board({ xIsNext, squares, onPlay }) {
     onPlay(nextSquares);
   }
 
-  const winner = calculateWinner(squares);
+  const winnerLine = calculateWinner(squares);
+  console.log("winner: "+winnerLine)
   let status = createStatus();
   
   return (
@@ -25,15 +26,21 @@ export function Board({ xIsNext, squares, onPlay }) {
 
   function row(idx: number[]) {
     return (<div className="board-row">
-        <Square value={squares[idx[0]]} onSquareClick={() => handleClick(idx[0])} />
-        <Square value={squares[idx[1]]} onSquareClick={() => handleClick(idx[1])} />
-        <Square value={squares[idx[2]]} onSquareClick={() => handleClick(idx[2])} />
+        <Square value={squares[idx[0]]} 
+          onSquareClick={() => handleClick(idx[0])} 
+          won={winnerLine && winnerLine.includes(idx[0])} />
+        <Square value={squares[idx[1]]} 
+          onSquareClick={() => handleClick(idx[1])} 
+          won={winnerLine && winnerLine.includes(idx[1])} />
+        <Square value={squares[idx[2]]} 
+          onSquareClick={() => handleClick(idx[2])} 
+          won={winnerLine && winnerLine.includes(idx[2])} />
       </div>)
   }
 
   function createStatus() {
-    if (winner) {
-      return "Winner: " + winner;
+    if (winnerLine) {
+      return "Winner: " + squares[winnerLine[0]];
     } else {
       return "Next player: " + (xIsNext ? "X" : "O");
     }
@@ -54,7 +61,7 @@ export function calculateWinner(squares: any[]) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return lines[i];
     }
   }
   return null;
